@@ -12,5 +12,5 @@ entities:
       - streamlit_app.py
       - environment.yml
       - pages
-      - common/hello.py
+      - pages/Credit_Usage.py
 
