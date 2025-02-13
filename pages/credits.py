@@ -68,11 +68,11 @@ warehouse_colors = {wh: color_palette[i % len(color_palette)] for i, wh in enume
 col1, col2 = st.columns((3, 6))
 
 with col1:
+    st.subheader("Total Credit Usage")
     fig_used = px.pie(
         names=["Used", "Unused"],
         values=[total_used, total_remaining],
         hole=0.6,
-        title="Total Credit Usage",
         color_discrete_sequence=["#2ECC71", "#E74C3C"]
     )
     fig_used.add_annotation(
@@ -84,6 +84,7 @@ with col1:
     fig_used.update_layout(showlegend=False)  
     st.plotly_chart(fig_used, use_container_width=True)
     
+    st.subheader("Credit Usage by Warehouse")
     chart = alt.Chart(warehouse_credits).mark_bar().encode(
         x="Warehouse",
         y="Credits",
@@ -94,7 +95,6 @@ with col1:
         legend=None  # Removes the legend
     )
     ).properties(
-        title="Credit Usage by Warehouse",
         width="container",
         height=500,
     ).configure_view(stroke=None)
@@ -104,9 +104,9 @@ with col1:
     st.altair_chart(chart, use_container_width=True)
 
 with col2:
+    st.subheader("Monthly Credit Usage by Warehouse")
     fig_bar = px.bar(
         df_monthly_warehouse,
-        title="Monthly Credit Usage by Warehouse",
         x="Month",
         y="Credits",
         color="Warehouse",
@@ -125,12 +125,12 @@ with col2:
 
     st.plotly_chart(fig_bar, use_container_width=True)
 
+    st.subheader("Monthly Credit Consumption")
     fig_line = px.line(
         monthly_credit_usage,
         x="Month",
         y="Credits",
         markers=True,
-        title="Monthly Credit Consumption",
         line_shape="spline",
         color_discrete_sequence=["#2E86C1"],
     )
