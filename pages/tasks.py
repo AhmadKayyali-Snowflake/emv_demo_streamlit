@@ -19,38 +19,42 @@ st.markdown("An interactive **real-time** overview of task execution, failures, 
 
 st.markdown("---")
 
-# --- PERFORMANCE OVERVIEW SECTION ---
+# --- TASK EXECUTION PERFORMANCE (TWO COLUMNS) ---
 st.markdown("### ⏳ Task Execution Performance")
-
 col1, col2 = st.columns((2, 3))
 
-# --- METRIC CARD FOR MAX TASK EXECUTION LAG ---
+# --- CIRCULAR GAUGE CHART FOR MAX TASK EXECUTION LAG ---
 with col1:
-    st.markdown("""
-    <div style="
-        padding: 20px;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #58A6FF, #1F6FEB);
-        text-align: center;
-        box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
-    ">
-        <h2 style="color: white; font-size: 22px; font-weight: 600; margin-bottom: 5px;">
-            Max Task Execution Lag
-        </h2>
-        <p style="color: white; font-size: 26px; font-weight: 700;">
-            {lag:.2f} seconds
-        </p>
-    </div>
-    """.format(lag=max_task_lag), unsafe_allow_html=True)
+    st.subheader("📊 Max Task Execution Lag")
 
-# --- TASK EXECUTION LAG DISTRIBUTION ---
+    gauge_data = pd.DataFrame({
+        "Category": ["Execution Time"],
+        "Seconds": [max_task_lag]
+    })
+
+    fig_gauge = px.bar_polar(
+        gauge_data,
+        r="Seconds",
+        theta=["Execution Time"],
+        color_discrete_sequence=["#1F6FEB"],
+        title="Task Execution Lag (Seconds)"
+    )
+
+    fig_gauge.update_layout(
+        polar=dict(radialaxis=dict(visible=True, range=[0, max(max_task_lag, 600)])),  # Ensures proper scaling
+        showlegend=False
+    )
+
+    st.plotly_chart(fig_gauge, use_container_width=True)
+
+# --- TASK EXECUTION LAG DISTRIBUTION (IN THE SECOND COLUMN) ---
 with col2:
-    st.subheader("⏳ Task Execution Lag Distribution")
+    st.subheader("⏳ Task Execution Lag Breakdown")
 
     # Define categories
     lag_distribution = pd.DataFrame({
         "Category": ["Fast (Under 30s)", "Moderate (30s - 5min)", "Slow (Over 5min)"],
-        "Seconds": [30, 270, max(max_task_lag - 300, 0)]  # Ensure a valid scale
+        "Seconds": [30, 270, max(max_task_lag - 300, 0)]  # Ensure valid scale
     })
 
     # Assign colors
