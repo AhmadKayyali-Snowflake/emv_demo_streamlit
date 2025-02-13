@@ -20,7 +20,7 @@ warehouse_credits = credits_by_warehouse()
 
 
 st.title("💰 Credits Usage Dashboard")
-st.write("")
+st.markdown("---")
 credit_usage = st.columns(3)
 
 if not monthly_credit_usage.empty:
