@@ -25,11 +25,17 @@ def query_volume_by_status():
 def failed_queries_last_24_hours():
     """Returns a list of failed queries executed in the last 24 hours."""
     return session.sql("""
-        SELECT QUERY_ID, USER_NAME, START_TIME, ERROR_MESSAGE
-        FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY
-        WHERE EXECUTION_STATUS = 'FAILED'
-        AND START_TIME >= DATEADD(HOUR, -24, CURRENT_TIMESTAMP())
-        ORDER BY START_TIME DESC;
+    SELECT 
+        QUERY_ID,
+        START_TIME,
+        USER_NAME, 
+        QUERY_TEXT, 
+        ERROR_MESSAGE, 
+        TOTAL_ELAPSED_TIME as TOTAL_ELAPSED_TIME_MILLISECONDS
+    FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY
+    WHERE EXECUTION_STATUS = 'FAIL'
+    AND START_TIME >= DATEADD(HOUR, -24, CURRENT_TIMESTAMP)
+    ORDER BY START_TIME DESC;
     """).to_pandas()
 
 def max_query_duration():
