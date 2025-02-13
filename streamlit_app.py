@@ -58,12 +58,25 @@ custom_css = """
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # --- HERO SECTION ---
-st.markdown('<p class="big-title">📊 SiS Performance Analytics</p>', unsafe_allow_html=True)
-st.write(
+st.markdown(
     """
-    **A Proof of Concept for monitoring and optimizing SiS performance in Snowflake.**  
-    This dashboard summarizes **queries, tasks, dynamic tables, credits, and data feeds**.
-    """
+    <div style="
+        padding: 30px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #58A6FF, #1F6FEB);
+        text-align: center;
+        box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
+    ">
+        <h1 style="color: white; font-size: 42px; font-weight: 700; margin-bottom: 10px;">
+            📊 SiS Performance Analytics
+        </h1>
+        <p style="color: white; font-size: 18px; font-weight: 400; max-width: 800px; margin: auto;">
+            <b>A next-generation analytics platform</b> designed to monitor and optimize <b>SiS performance in Snowflake</b>.
+            Gain insights into <b>queries, tasks, dynamic tables, credits, and data feeds</b> with real-time visualizations.
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 st.markdown("---")
