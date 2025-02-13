@@ -1,12 +1,12 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
-from functions.queries_sql import *
-
 st.set_page_config(
     layout="wide",
     page_icon="📈"
 )
+
+import pandas as pd
+import plotly.express as px
+from functions.queries_sql import *
 
 # --- FETCH DATA ---
 df_queries_by_user = queries_by_user()

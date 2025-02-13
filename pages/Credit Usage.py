@@ -1,13 +1,13 @@
 import streamlit as st
-import pandas as pd
-import altair as alt
-import plotly.express as px
-from functions.credits_sql import *
-
 st.set_page_config(
     layout="wide",
     page_icon="💰"
 )
+
+import pandas as pd
+import altair as alt
+import plotly.express as px
+from functions.credits_sql import *
 
 total_used = credits_used()
 total_remaining = credits_remaining()
@@ -135,3 +135,16 @@ with col2:
         color_discrete_sequence=["#2E86C1"],
     )
     st.plotly_chart(fig_line, use_container_width=True)
+
+st.markdown("---")
+
+st.subheader("Credit Consumption Per Query")
+st.info("""It is important to note that Snowflake does not charge based on the duration a query runs, but rather per second that the warehouse is running. \n
+This query cost calculation does not take into account warehouse query concurrency, idle time, or minimum uptime costs. These variables are important considerations for cost attribution and optimization efforts. \n
+The cost calculation in this table represents the theoretical cost of an isolated query running on the warehouse. This can be used to assess how computationally expensive each query was.""", icon="ℹ️")
+st.data_editor(
+    credits_per_query(),
+    use_container_width=True,
+    height=400,
+    hide_index=True
+)
