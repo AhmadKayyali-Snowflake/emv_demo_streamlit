@@ -1,15 +1,13 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
-from functions.queries_sql import *
-from functions.credits_sql import *
-
-# --- PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="SiS Performance Analytics",
     layout="wide",
     page_icon="📊"
 )
+import pandas as pd
+import plotly.express as px
+from functions.queries_sql import *
+from functions.credits_sql import *
 
 # --- CUSTOM STYLING ---
 custom_css = """
@@ -119,7 +117,7 @@ with col3:
         """
         <div class="card">
             <div class="card-icon">🛠️</div>
-            <h3>Tasks & Tables Monitoring</h3>
+            <h3>Tasks & Tables</h3>
             <p>Track task refreshes, lag differences, and identify failed tasks & tables.</p>
         </div>
         """,
