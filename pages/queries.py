@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 from functions.queries_sql import *
 
 st.set_page_config(
@@ -19,57 +20,89 @@ df_longest_queries = longest_queries_last_24_hours()
 st.title("📈 Query Analysis Dashboard")
 st.markdown("An interactive **real-time** overview of query execution, failures, and user activity.")
 
-# --- PERFORMANCE METRICS ---
+st.markdown("---")
+
+# --- PERFORMANCE OVERVIEW (TWO COLUMNS) ---
 st.markdown("### ⏳ Performance Overview")
-col1, col2 = st.columns(2)
+col1, col2 = st.columns((2, 3))
 
+# --- HORIZONTAL BAR CHART FOR MAX QUERY DURATION ---
 with col1:
-    st.metric(label="Max Query Duration (s)", value=f"{max_duration:.2f}", delta_color="inverse")
+    st.subheader("⏳ Max Query Execution Duration")
 
+    # Define categories for query execution speed
+    execution_speed = pd.DataFrame({
+        "Category": ["Fast (Under 30s)", "Moderate (30s - 5min)", "Slow (Over 5min)"],
+        "Seconds": [30, 270, max(max_duration - 300, 0)]
+    })
+
+    # Assign colors
+    category_colors = {
+        "Fast (Under 30s)": "#2ECC71",  # Green
+        "Moderate (30s - 5min)": "#F1C40F",  # Yellow
+        "Slow (Over 5min)": "#E74C3C"  # Red
+    }
+
+    # Create a horizontal bar chart for execution time
+    fig_duration = px.bar(
+        execution_speed,
+        x="Seconds",
+        y="Category",
+        orientation="h",
+        text="Seconds",
+        color="Category",
+        color_discrete_map=category_colors,
+        title="Max Query Duration Breakdown"
+    )
+
+    fig_duration.update_layout(
+        xaxis_title="Execution Time (Seconds)",
+        yaxis_title="Category",
+        showlegend=False
+    )
+
+    st.plotly_chart(fig_duration, use_container_width=True)
+
+# --- QUERY STATUS BREAKDOWN CHART ---
 with col2:
-    st.write("📝 **Tip:** Use tabs below to navigate and explore detailed query insights.")
+    st.subheader("📌 Query Execution Breakdown")
+
+    # Assign colors manually for better distinction
+    status_colors = {
+        "SUCCESS": "#2ECC71",  # Green
+        "FAILED": "#E74C3C",  # Red
+        "OTHER": "#F39C12"  # Yellow/Orange
+    }
+
+    # Map colors for consistency
+    df_query_status["COLOR"] = df_query_status["EXECUTION_STATUS"].map(status_colors)
+
+    fig_status = px.pie(
+        df_query_status,
+        names="EXECUTION_STATUS",
+        values="QUERY_COUNT",
+        hole=0.4,  # Donut Chart Effect
+        title="Query Volume by Execution Status",
+        color="EXECUTION_STATUS",
+        color_discrete_map=status_colors
+    )
+
+    st.plotly_chart(fig_status, use_container_width=True)
 
 st.markdown("---")
 
 # --- TABS FOR NAVIGATION ---
 tab1, tab2, tab3 = st.tabs(["📊 Query Status", "👤 Queries by User", "❌ Failed Queries"])
 
-# --- TAB 1: QUERY STATUS ---
+# --- TAB 1: LONGEST QUERIES ---
 with tab1:
-    col1, col2 = st.columns((5, 5))
-
-    with col1:
-        st.subheader("✅ Query Volume by Status")
-
-        # Assign colors manually for better distinction
-        status_colors = {
-            "SUCCESS": "#2ECC71",  # Green
-            "FAILED": "#E74C3C",  # Red
-            "OTHER": "#F39C12"  # Yellow/Orange
-        }
-
-        # Add a new color column for consistent coloring
-        df_query_status["COLOR"] = df_query_status["EXECUTION_STATUS"].map(status_colors)
-
-        fig_status = px.pie(
-            df_query_status,
-            names="EXECUTION_STATUS",
-            values="QUERY_COUNT",
-            hole=0.4,  # Donut Chart Effect
-            title="Query Volume by Execution Status",
-            color="EXECUTION_STATUS",
-            color_discrete_map=status_colors
-        )
-        st.plotly_chart(fig_status, use_container_width=True)
-
-    with col2:
-        st.subheader("⏳ Longest Queries in the Last 24 Hours")
-        st.data_editor(
-            df_longest_queries,
-            use_container_width=True,
-            height=250,
-            hide_index=True
-        )
+    st.subheader("⏳ Longest Queries in the Last 24 Hours")
+    st.data_editor(
+        df_longest_queries,
+        use_container_width=True,
+        height=250,
+        hide_index=True
+    )
 
 # --- TAB 2: QUERIES BY USER ---
 with tab2:
