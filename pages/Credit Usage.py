@@ -139,11 +139,9 @@ with col2:
 st.markdown("---")
 
 st.subheader("Credit Consumption Per Query")
-st.info("""It is important to note that Snowflake does not charge per second a query ran. They charge per second the warehouse is up.
-The following calculation does not take concurrency or warehouse idle time into account.
-This means a given query may automatically resume the warehouse, run for some time, then cause the warehouse to idle before being automatically suspended. 
-Similarly, if two queries run concurrently on the same warehouse, Snowflake will only bill for the time spent where the warehouse was active and not for both queries seperately. 
-Idle time and concurrency are therefore important considerations in cost attribution and optimization efforts.""", icon="ℹ️")
+st.info("""It is important to note that Snowflake does not charge based on the duration a query runs, but rather per second that the warehouse is running. \n
+This query cost calculation does not take into account warehouse query concurrency, idle time, or minimum uptime costs. These variables are important considerations for cost attribution and optimization efforts. \n
+The cost calculation in this table represents the theoretical cost of an isolated query running on the warehouse. This can be used to assess how computationally expensive each query was.""", icon="ℹ️")
 st.data_editor(
     credits_per_query(),
     use_container_width=True,

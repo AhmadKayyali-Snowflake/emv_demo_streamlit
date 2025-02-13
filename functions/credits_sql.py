@@ -110,16 +110,17 @@ def credits_per_query():
         SELECT '4X-Large' AS warehouse_size, 128 AS credits_per_hour
     )
     SELECT
-        qh.query_id,
-        qh.query_text,
-        ROUND(qh.total_elapsed_time / 1000 / 60, 2) AS duration_minutes,
         qh.user_name,
-        qh.execution_time/(1000*60*60)*wh.credits_per_hour AS query_cost
+        qh.execution_time/(1000*60*60)*wh.credits_per_hour AS query_cost,
+        ROUND(qh.total_elapsed_time / 1000 / 60, 2) AS duration_minutes,
+        qh.warehouse_name,
+        qh.warehouse_size,
+        qh.start_time,
+        qh.query_text,
+        qh.query_id
     FROM snowflake.account_usage.query_history AS qh
     INNER JOIN warehouse_sizes AS wh
         ON qh.warehouse_size=wh.warehouse_size
-    WHERE
-        start_time >= CURRENT_DATE - 30
     ORDER BY query_cost DESC
     LIMIT 50              
     """).to_pandas()  # Convert to Pandas DataFrame
