@@ -89,10 +89,10 @@ with col1:
     with st.container():
         st.markdown(
             """
-            <a href="/credits" target="_self" style="text-decoration: none; color: inherit;">
+            <a href="/Credit_Usage" target="_self" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <div class="card-icon">💰</div>
-                    <h3>Credits</h3>
+                    <h3>Credit Usage</h3>
                     <p>Monitor credit consumption trends, usage over time, and remaining balances.</p>
                 </div>
             </a>
@@ -103,10 +103,10 @@ with col2:
     with st.container():
         st.markdown(
             """
-            <a href="/queries" target="_self" style="text-decoration: none; color: inherit;">
+            <a href="/Query_Monitoring" target="_self" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <div class="card-icon">📈</div>
-                    <h3>Queries</h3>
+                    <h3>Query Monitoring</h3>
                     <p>Analyze query performance by status, execution time, and failed queries.</p>
                 </div>
             </a>
@@ -120,7 +120,7 @@ with col3:
             <a href="/tasks" target="_self" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <div class="card-icon">🛠️</div>
-                    <h3>Tasks & Tables</h3>
+                    <h3>Tasks & Tables Monitoring</h3>
                     <p>Track task refreshes, lag differences, and identify failed tasks & tables.</p>
                 </div>
             </a>

@@ -4,7 +4,7 @@ entities:
   emv_demo_streamlit:
     type: streamlit
     stage: testing
-    main_file: streamlit_app.py
+    main_file: Home.py
     pages_dir: pages/
     query_warehouse: demo_wh
 
@@ -14,7 +14,10 @@ entities:
       database: emv_example_db
 
     artifacts:
-      - streamlit_app.py
+      - Home.py
       - environment.yml
-      - functions/hello.py
-      - pages/Credit_Usage.py
+      - functions/credits_sql.py
+      - functions/queries_sql.py
+      - functions/session.py.py
+      - pages/Credit Usage.py
+      - pages/Query Monitoring.py

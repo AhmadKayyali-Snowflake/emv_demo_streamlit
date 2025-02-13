@@ -38,7 +38,7 @@ if not monthly_credit_usage.empty:
             st.write('<p style="font-weight:bold; color:#D3D3D3;">No change in credit usage since last month</p>', unsafe_allow_html=True)
 
         with credit_usage[1]:
-            st.metric(label="% of Credits Used", value=f"{percentage_used:.2f}%")
+            st.metric(label="Percentage of Credits Used", value=f"{percentage_used:.2f}%")
 
             percentage_change = monthly_credit_usage['Percentage Change'].iloc[0]
             percentage_change = 0 if pd.isna(percentage_change) else percentage_change

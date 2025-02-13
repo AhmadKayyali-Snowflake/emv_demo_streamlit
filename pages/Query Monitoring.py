@@ -16,7 +16,7 @@ max_duration = max_query_duration()
 df_longest_queries = longest_queries_last_24_hours()
 
 # --- HEADER ---
-st.title("📈 Query Analysis Dashboard")
+st.title("📈 Query Monitoring Dashboard")
 st.markdown("---")
 col1, col2, col3 = st.columns(3)
 
