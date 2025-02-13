@@ -1,8 +1,8 @@
 import streamlit as st
-st.set_page_config(
-    layout="wide",
-    page_icon="📈"
-)
+# st.set_page_config(
+#     layout="wide",
+#     page_icon="📈"
+# )
 
 import pandas as pd
 import plotly.express as px

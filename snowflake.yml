@@ -9,9 +9,9 @@ entities:
     query_warehouse: demo_wh
 
     identifier:
-      name: emv_demo_streamlit
+      name: emv_streamlit
       schema: public
-      database: emv_example_db
+      database: emv_streamlit
 
     artifacts:
       - Home.py
