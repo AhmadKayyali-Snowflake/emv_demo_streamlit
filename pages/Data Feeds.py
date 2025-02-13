@@ -1,13 +1,13 @@
 import streamlit as st
-import pandas as pd
-import altair as alt
-import plotly.express as px
-from functions.datafeeds_sql import *
-
 st.set_page_config(
     layout="wide",
     page_icon="📡"
 )
+
+import pandas as pd
+import altair as alt
+import plotly.express as px
+from functions.datafeeds_sql import *
 
 st.title("📡 Data Feeds by Database Dashboard")
 st.markdown("---")

@@ -18,6 +18,8 @@ entities:
       - environment.yml
       - functions/credits_sql.py
       - functions/queries_sql.py
-      - functions/session.py.py
+      - functions/datafeeds_sql.py
+      - functions/session.py
       - pages/Credit Usage.py
       - pages/Query Monitoring.py
+      - pages/Data Feeds.py
