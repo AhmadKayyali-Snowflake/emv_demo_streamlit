@@ -4,13 +4,13 @@ import streamlit as st
 st.set_page_config(
     page_title="SiS Performance Analytics",
     layout="wide",
-    initial_sidebar_state="expanded",
     page_icon="📊"
 )
 
 import pandas as pd
 import plotly.express as px
 from functions.queries_sql import *
+from functions.credits_sql import *
 
 # --- CUSTOM STYLING ---
 custom_css = """
@@ -70,11 +70,11 @@ st.markdown(
         box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
     ">
         <h1 style="color: white; font-size: 42px; font-weight: 700; margin-bottom: 10px;">
-            📊 SiS Performance Analytics
+        Snowflake Performance Analytics
         </h1>
         <p style="color: white; font-size: 18px; font-weight: 400; max-width: 800px; margin: auto;">
-            <b>A next-generation analytics platform</b> designed to monitor and optimize <b>SiS performance in Snowflake</b>.
-            Gain insights into <b>queries, tasks, dynamic tables, credits, and data feeds</b> with real-time visualizations.
+            Analytics platform designed to monitor and optimize performance in Snowflake.
+            Gain insights into queries, tasks, dynamic tables, credits, and data feeds with real-time visualizations.
         </p>
     </div>
     """,
@@ -83,20 +83,19 @@ st.markdown(
 
 st.markdown("---")
 
-# --- FEATURE CARDS ---
-st.markdown('<p class="section-title">🔍 Key Analytics Areas</p>', unsafe_allow_html=True)
-
 col1, col2, col3 = st.columns(3)
 
 with col1:
     with st.container():
         st.markdown(
             """
-            <div class="card">
-                <div class="card-icon">💰</div>
-                <h3>Credits</h3>
-                <p>Monitor credit consumption trends, usage over time, and remaining balances.</p>
-            </div>
+            <a href="/credits" target="_self" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <div class="card-icon">💰</div>
+                    <h3>Credits</h3>
+                    <p>Monitor credit consumption trends, usage over time, and remaining balances.</p>
+                </div>
+            </a>
             """, unsafe_allow_html=True
         )
 
@@ -104,11 +103,13 @@ with col2:
     with st.container():
         st.markdown(
             """
-            <div class="card">
-                <div class="card-icon">📈</div>
-                <h3>Queries</h3>
-                <p>Analyze query performance by status, execution time, and failed queries.</p>
-            </div>
+            <a href="/queries" target="_self" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <div class="card-icon">📈</div>
+                    <h3>Queries</h3>
+                    <p>Analyze query performance by status, execution time, and failed queries.</p>
+                </div>
+            </a>
             """, unsafe_allow_html=True
         )
 
@@ -116,11 +117,13 @@ with col3:
     with st.container():
         st.markdown(
             """
-            <div class="card">
-                <div class="card-icon">🛠️</div>
-                <h3>Tasks & Tables</h3>
-                <p>Track task refreshes, lag differences, and identify failed tasks & tables.</p>
-            </div>
+            <a href="/tasks" target="_self" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <div class="card-icon">🛠️</div>
+                    <h3>Tasks & Tables</h3>
+                    <p>Track task refreshes, lag differences, and identify failed tasks & tables.</p>
+                </div>
+            </a>
             """, unsafe_allow_html=True
         )
 
@@ -132,11 +135,13 @@ with col4:
     with st.container():
         st.markdown(
             """
-            <div class="card">
-                <div class="card-icon">📡</div>
-                <h3>Data Feeds</h3>
-                <p>Monitor query volume, credit consumption, and unique user trends.</p>
-            </div>
+            <a href="/data-feeds" target="_self" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <div class="card-icon">📡</div>
+                    <h3>Data Feeds</h3>
+                    <p>Monitor query volume, credit consumption, and unique user trends.</p>
+                </div>
+            </a>
             """, unsafe_allow_html=True
         )
 
@@ -144,25 +149,25 @@ with col5:
     with st.container():
         st.markdown(
             """
-            <div class="card">
-                <div class="card-icon">🚀</div>
-                <h3>SiS Performance</h3>
-                <p>Analyze SiS queries, success rates, and overall system efficiency.</p>
-            </div>
+            <a href="/sis-performancer" target="_self" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <h3>SiS Performance</h3>
+                    <p>Analyze SiS queries, success rates, and overall system efficiency.</p>
+                </div>
+            </a>
             """, unsafe_allow_html=True
         )
 
 st.markdown("---")
 
 # --- LIVE METRICS OVERVIEW ---
-st.markdown('<p class="section-title">📡 Live System Overview</p>', unsafe_allow_html=True)
-
 df_summary = pd.DataFrame({
     "Metric": ["Total Queries", "Failed Queries (24h)", "Total Credits Used"],
     "Value": [
         queries_by_user()["TOTAL_QUERIES"].sum(),
         failed_queries_last_24_hours().shape[0],
-        max_query_duration()  # Placeholder for total credits used
+        credits_used()
     ]
 })
 

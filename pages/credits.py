@@ -4,6 +4,11 @@ import altair as alt
 import plotly.express as px
 from functions.credits_sql import *
 
+st.set_page_config(
+    layout="wide",
+    page_icon="💰"
+)
+
 total_used = credits_used()
 total_remaining = credits_remaining()
 percentage_used = percentage_credits_used()

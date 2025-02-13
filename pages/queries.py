@@ -3,6 +3,11 @@ import pandas as pd
 import plotly.express as px
 from functions.queries_sql import *
 
+st.set_page_config(
+    layout="wide",
+    page_icon="📈"
+)
+
 # --- FETCH DATA ---
 df_queries_by_user = queries_by_user()
 df_query_status = query_volume_by_status()
@@ -11,7 +16,7 @@ max_duration = max_query_duration()
 df_longest_queries = longest_queries_last_24_hours()
 
 # --- HEADER ---
-st.title("📊 Query Analysis Dashboard")
+st.title("📈 Query Analysis Dashboard")
 st.markdown("An interactive **real-time** overview of query execution, failures, and user activity.")
 
 # --- PERFORMANCE METRICS ---

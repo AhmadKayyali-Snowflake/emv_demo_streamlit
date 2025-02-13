@@ -5,7 +5,7 @@ session = create_session()
 
 def credits_used():
     total_credits_used = session.sql("""
-        SELECT SUM(CREDITS_USED) AS TOTAL_CREDITS_USED
+        SELECT ROUND(SUM(CREDITS_USED),2) AS TOTAL_CREDITS_USED
         FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY;
     """).collect()[0]["TOTAL_CREDITS_USED"]
 
