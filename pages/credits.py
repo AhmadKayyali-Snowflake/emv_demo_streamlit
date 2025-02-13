@@ -4,8 +4,6 @@ import altair as alt
 import plotly.express as px
 from functions.credits_sql import *
 
-alt.themes.enable("dark")
-
 # --- FETCH DATA ---
 total_used = credits_used()
 total_remaining = credits_remaining()

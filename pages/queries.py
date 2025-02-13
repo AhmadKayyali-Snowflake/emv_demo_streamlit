@@ -3,9 +3,6 @@ import pandas as pd
 import plotly.express as px
 from functions.queries_sql import *
 
-# --- CUSTOM PAGE CONFIG & STYLING ---
-st.set_page_config(page_title="Query Analysis Dashboard", layout="wide")
-
 # --- FETCH DATA ---
 df_queries_by_user = queries_by_user()
 df_query_status = query_volume_by_status()

@@ -1,14 +1,16 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
-from functions.queries_sql import *
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="SiS Performance Analytics",
     layout="wide",
+    initial_sidebar_state="expanded",
     page_icon="📊"
 )
+
+import pandas as pd
+import plotly.express as px
+from functions.queries_sql import *
 
 # --- CUSTOM STYLING ---
 custom_css = """
