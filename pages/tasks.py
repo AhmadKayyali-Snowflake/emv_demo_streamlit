@@ -3,10 +3,10 @@ import pandas as pd
 import plotly.express as px
 from functions.tasks_sql import *
 
-st.set_page_config(
-    layout="wide",
-    page_icon="🛠️"
-)
+# st.set_page_config(
+#     layout="wide",
+#     page_icon="🛠️"
+# )
 
 # --- FETCH DATA ---
 df_tasks_status = tasks_by_refresh_status()
@@ -15,17 +15,14 @@ df_failed_tasks = failed_tasks_last_24_hours()
 
 # --- HEADER ---
 st.title("🛠️ Task Execution Dashboard")
-st.markdown("An interactive **real-time** overview of task execution, failures, and performance metrics.")
-
 st.markdown("---")
 
 # --- TASK EXECUTION PERFORMANCE (TWO COLUMNS) ---
-st.markdown("### ⏳ Task Execution Performance")
 col1, col2 = st.columns((2, 3))
 
 # --- CIRCULAR GAUGE CHART FOR MAX TASK EXECUTION LAG ---
 with col1:
-    st.subheader("📊 Max Task Execution Lag")
+    st.subheader("Max Task Execution Lag")
 
     gauge_data = pd.DataFrame({
         "Category": ["Execution Time"],
@@ -37,7 +34,6 @@ with col1:
         r="Seconds",
         theta=["Execution Time"],
         color_discrete_sequence=["#1F6FEB"],
-        title="Task Execution Lag (Seconds)"
     )
 
     fig_gauge.update_layout(
@@ -49,7 +45,7 @@ with col1:
 
 # --- TASK EXECUTION LAG DISTRIBUTION (IN THE SECOND COLUMN) ---
 with col2:
-    st.subheader("⏳ Task Execution Lag Breakdown")
+    st.subheader("Task Execution Lag Breakdown")
 
     # Define categories
     lag_distribution = pd.DataFrame({
@@ -73,7 +69,6 @@ with col2:
         text="Seconds",
         color="Category",
         color_discrete_map=category_colors,
-        title="Task Execution Time Breakdown"
     )
 
     fig_lag.update_layout(
@@ -84,17 +79,15 @@ with col2:
 
     st.plotly_chart(fig_lag, use_container_width=True)
 
-st.markdown("---")
-
 # --- TABS FOR NAVIGATION ---
-tab1, tab2 = st.tabs(["📊 Task Execution Status", "❌ Failed Tasks"])
+tab1, tab2 = st.tabs(["Task Execution Status", "Failed Tasks"])
 
 # --- TAB 1: TASK EXECUTION STATUS ---
 with tab1:
     col1, col2 = st.columns((5, 5))
 
     with col1:
-        st.subheader("✅ Task Volume by Execution Status")
+        st.subheader("Task Volume by Execution Status")
 
         # Assign colors manually for better distinction
         status_colors = {
@@ -113,7 +106,6 @@ with tab1:
             names="STATE",
             values="COUNT",
             hole=0.4,  # Donut Chart Effect
-            title="Task Execution Status",
             color="STATE",
             color_discrete_map=status_colors
         )

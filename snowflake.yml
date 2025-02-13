@@ -16,10 +16,12 @@ entities:
     artifacts:
       - Home.py
       - environment.yml
+      - functions/tasks_sql.py
       - functions/credits_sql.py
       - functions/queries_sql.py
       - functions/datafeeds_sql.py
       - functions/session.py
-      - pages/Credit Usage.py
-      - pages/Query Monitoring.py
-      - pages/Data Feeds.py
+      - pages/Credit_Usage.py
+      - pages/Query_Monitoring.py
+      - pages/Data_Feeds.py
+      - pages/Tasks.py

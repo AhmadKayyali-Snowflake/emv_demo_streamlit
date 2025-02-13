@@ -125,8 +125,8 @@ with col3:
         """,
         unsafe_allow_html=True,
     )
-    # if st.button("Go to Tasks & Tables", key="tasks", use_container_width=True):
-    #     st.switch_page("pages/tasks.py")
+    if st.button("Go to Tasks & Tables", key="tasks", use_container_width=True):
+        st.switch_page("pages/Tasks.py")
 
 st.markdown("---")
 
