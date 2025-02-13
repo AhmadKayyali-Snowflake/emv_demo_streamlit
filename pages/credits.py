@@ -17,35 +17,38 @@ warehouse_credits = credits_by_warehouse()
 st.title("💰 Credits Usage Dashboard")
 st.write("")
 credit_usage = st.columns(3)
-with credit_usage[0]:
-    st.metric(label="Total Credits Used", value=f"{total_used:.2f}")
 
-    mom_change = monthly_credit_usage['MOM Change'].iloc[0]
-    mom_change = 0 if pd.isna(mom_change) else mom_change
+if not monthly_credit_usage.empty:
+    with credit_usage[0]:
+        st.metric(label="Total Credits Used", value=f"{total_used:.2f}")
 
-    if mom_change > 0:
-        st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{mom_change:.2f} increase in credit usage since last month</p>', unsafe_allow_html=True)
-    elif mom_change < 0:
-        st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{mom_change:.2f} decrease in credit usage since last month</p>', unsafe_allow_html=True)
-    else: 
-        st.write('<p style="font-weight:bold; color:#D3D3D3;">No change in credit usage since last month</p>', unsafe_allow_html=True)
+        mom_change = monthly_credit_usage['MOM Change'].iloc[0]
+        mom_change = 0 if pd.isna(mom_change) else mom_change
 
-    with credit_usage[1]:
-        st.metric(label="% of Credits Used", value=f"{percentage_used:.2f}%")
-
-        percentage_change = monthly_credit_usage['Percentage Change'].iloc[0]
-        percentage_change = 0 if pd.isna(percentage_change) else percentage_change
-
-        if percentage_change > 0:
-            st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{percentage_change:.2f}% increase in credit usage since last month</p>', unsafe_allow_html=True)
-        elif percentage_change < 0:
-            st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{percentage_change:.2f}% decrease in credit usage since last month</p>', unsafe_allow_html=True)
+        if mom_change > 0:
+            st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{mom_change:.2f} increase in credit usage since last month</p>', unsafe_allow_html=True)
+        elif mom_change < 0:
+            st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{mom_change:.2f} decrease in credit usage since last month</p>', unsafe_allow_html=True)
         else: 
             st.write('<p style="font-weight:bold; color:#D3D3D3;">No change in credit usage since last month</p>', unsafe_allow_html=True)
 
-    with credit_usage[2]:
-        st.metric(label="Total Credits Remaining", value=f"{total_remaining:.2f}")
+        with credit_usage[1]:
+            st.metric(label="% of Credits Used", value=f"{percentage_used:.2f}%")
 
+            percentage_change = monthly_credit_usage['Percentage Change'].iloc[0]
+            percentage_change = 0 if pd.isna(percentage_change) else percentage_change
+
+            if percentage_change > 0:
+                st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{percentage_change:.2f}% increase in credit usage since last month</p>', unsafe_allow_html=True)
+            elif percentage_change < 0:
+                st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{percentage_change:.2f}% decrease in credit usage since last month</p>', unsafe_allow_html=True)
+            else: 
+                st.write('<p style="font-weight:bold; color:#D3D3D3;">No change in credit usage since last month</p>', unsafe_allow_html=True)
+
+        with credit_usage[2]:
+            st.metric(label="Total Credits Remaining", value=f"{total_remaining:.2f}")
+else:
+    st.warning("No data available for monthly credit usage.")
 
 
 st.markdown("---")

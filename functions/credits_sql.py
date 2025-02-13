@@ -29,7 +29,7 @@ def percentage_credits_used():
     return percentage_of_credits_used if percentage_of_credits_used else 0
 
 def credits_used_per_month_by_warehouse():
-    total_credits_used_month = session.sql("""
+    total_credits_used_month_warehouse = session.sql("""
         SELECT 
         TO_CHAR(DATE_TRUNC('MONTH', START_TIME), 'YYYY-MM') AS MONTH, 
         WAREHOUSE_NAME AS WAREHOUSE,
@@ -37,34 +37,28 @@ def credits_used_per_month_by_warehouse():
         FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY
         GROUP BY MONTH, WAREHOUSE
         ORDER BY MONTH DESC;
-    """).collect()
+    """).to_pandas()
 
-    months = [row["MONTH"] for row in total_credits_used_month]
-    warehouse = [row["WAREHOUSE"] for row in total_credits_used_month]
-    credits_used = [row["TOTAL_CREDITS_USED"] for row in total_credits_used_month]
+    total_credits_used_month_warehouse.rename(columns={"MONTH": "Month", "TOTAL_CREDITS_USED": "Credits", "WAREHOUSE": "Warehouse"}, inplace=True)
+    
+    total_credits_used_month_warehouse["Month"] = pd.to_datetime(total_credits_used_month_warehouse["Month"])
 
-    df = pd.DataFrame(list(zip(months, warehouse, credits_used)), columns=["Month", "Warehouse", "Credits"])
-
-    df["Month"] = pd.to_datetime(df["Month"])
-
-    return df
+    return total_credits_used_month_warehouse
 
 
 def credits_by_warehouse():
-    total_credits_warehouse = session.sql("""
+    total_by_warehouse = session.sql("""
         SELECT 
         WAREHOUSE_NAME AS WAREHOUSE,
         ROUND(SUM(CREDITS_USED),0) AS TOTAL_CREDITS_USED
         FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY
         GROUP BY WAREHOUSE
         ORDER BY WAREHOUSE DESC;
-    """).collect()
+    """).to_pandas()
 
-    warehouse = [row["WAREHOUSE"] for row in total_credits_warehouse]
-    credits_used = [row["TOTAL_CREDITS_USED"] for row in total_credits_warehouse]
-
-    df = pd.DataFrame(list(zip(warehouse, credits_used)), columns=["Warehouse", "Credits"])
-    return df
+    total_by_warehouse.rename(columns={"WAREHOUSE": "Warehouse", "TOTAL_CREDITS_USED": "Credits"}, inplace=True)
+    
+    return total_by_warehouse
 
 def credits_per_month():
     total_credits_used_month = session.sql("""
@@ -80,19 +74,13 @@ def credits_per_month():
     FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY
     GROUP BY DATE_TRUNC('MONTH', START_TIME)
     ORDER BY MONTH DESC;
-    """).collect()
+    """).to_pandas()
 
-    months = [row["MONTH"] for row in total_credits_used_month]
-    credits_used = [row["TOTAL_CREDITS_USED"] for row in total_credits_used_month]
-    mom_change = [row["MOM_CHANGE"] for row in total_credits_used_month]
-    percentage_change = [row["PERCENT_CHANGE"] for row in total_credits_used_month]
-
-
-    df = pd.DataFrame(list(zip(months, credits_used, mom_change, percentage_change)), columns=["Month", "Credits", "MOM Change", "Percentage Change"])
+    total_credits_used_month.rename(columns={"MONTH": "Month", "TOTAL_CREDITS_USED": "Credits", "MOM_CHANGE": "MOM Change", "PERCENT_CHANGE": "Percentage Change"}, inplace=True)
     
-    df["Month"] = pd.to_datetime(df["Month"])
+    total_credits_used_month["Month"] = pd.to_datetime(total_credits_used_month["Month"])
 
-    return df
+    return total_credits_used_month
 
 def credits_per_warehouse():
     credits_per_warehouse = session.sql("""
@@ -102,14 +90,11 @@ def credits_per_warehouse():
     FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY
     GROUP BY WAREHOUSE_NAME
     ORDER BY TOTAL_CREDITS_USED DESC;
-    """).collect()
+    """).to_pandas()
 
+    credits_per_warehouse.rename(columns={"WAREHOUSE_NAME": "Warehouse", "TOTAL_CREDITS_USED": "Credits"}, inplace=True)
 
-    warehouse = [row["WAREHOUSE_NAME"] for row in credits_per_warehouse]
-    credits_used = [row["TOTAL_CREDITS_USED"] for row in credits_per_warehouse]
-
-    df = pd.DataFrame(list(zip(warehouse, credits_used)), columns=["Warehouse", "Credits"])
-    return df
+    return credits_per_warehouse
 
 
 
