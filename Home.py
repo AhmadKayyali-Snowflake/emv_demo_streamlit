@@ -159,30 +159,30 @@ with col5:
             """, unsafe_allow_html=True
         )
 
-st.markdown("---")
+# st.markdown("---")
 
-# --- LIVE METRICS OVERVIEW ---
-df_summary = pd.DataFrame({
-    "Metric": ["Total Queries", "Failed Queries (24h)", "Total Credits Used"],
-    "Value": [
-        queries_by_user()["TOTAL_QUERIES"].sum(),
-        failed_queries_last_24_hours().shape[0],
-        credits_used()
-    ]
-})
+# # --- LIVE METRICS OVERVIEW ---
+# df_summary = pd.DataFrame({
+#     "Metric": ["Total Queries", "Failed Queries (24h)", "Total Credits Used"],
+#     "Value": [
+#         queries_by_user()["TOTAL_QUERIES"].sum(),
+#         failed_queries_last_24_hours().shape[0],
+#         credits_used()
+#     ]
+# })
 
-fig_summary = px.bar(
-    df_summary,
-    x="Value",
-    y="Metric",
-    orientation="h",
-    text="Value",
-    color="Metric",
-    color_discrete_map={
-        "Total Queries": "#58A6FF",
-        "Failed Queries (24h)": "#E74C3C",
-        "Total Credits Used": "#F39C12"
-    },
-    title="Live Performance Summary"
-)
-st.plotly_chart(fig_summary, use_container_width=True)
+# fig_summary = px.bar(
+#     df_summary,
+#     x="Value",
+#     y="Metric",
+#     orientation="h",
+#     text="Value",
+#     color="Metric",
+#     color_discrete_map={
+#         "Total Queries": "#58A6FF",
+#         "Failed Queries (24h)": "#E74C3C",
+#         "Total Credits Used": "#F39C12"
+#     },
+#     title="Live Performance Summary"
+# )
+# st.plotly_chart(fig_summary, use_container_width=True)
