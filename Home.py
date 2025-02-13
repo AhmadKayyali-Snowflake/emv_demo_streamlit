@@ -135,7 +135,7 @@ with col4:
     with st.container():
         st.markdown(
             """
-            <a href="/data-feeds" target="_self" style="text-decoration: none; color: inherit;">
+            <a href="/Data_Feeds" target="_self" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <div class="card-icon">📡</div>
                     <h3>Data Feeds</h3>
