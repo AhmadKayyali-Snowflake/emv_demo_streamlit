@@ -110,3 +110,7 @@ def credits_per_warehouse():
 
     df = pd.DataFrame(list(zip(warehouse, credits_used)), columns=["Warehouse", "Credits"])
     return df
+
+
+
+
