@@ -1,9 +1,11 @@
 # queries_sql.py
 from functions.session import create_session
 import pandas as pd
+import streamlit as st
 
 session = create_session()
 
+@st.cache_data
 def queries_by_user():
     """Returns the total number of queries executed by each user."""
     return session.sql("""
@@ -13,6 +15,7 @@ def queries_by_user():
         ORDER BY TOTAL_QUERIES DESC;
     """).to_pandas()
 
+@st.cache_data
 def query_volume_by_status():
     """Returns the count of queries grouped by status."""
     return session.sql("""
@@ -22,6 +25,7 @@ def query_volume_by_status():
         ORDER BY QUERY_COUNT DESC;
     """).to_pandas()
 
+@st.cache_data
 def number_failed_queries_last_24_hours():
     result = session.sql("""
         SELECT 
@@ -33,7 +37,7 @@ def number_failed_queries_last_24_hours():
 
     return result[0]["NUMBER"] if result else 0
 
-
+@st.cache_data
 def max_query_duration():
     """Returns the maximum query duration recorded in seconds."""
     result = session.sql("""
@@ -43,6 +47,7 @@ def max_query_duration():
     """).collect()
     return result[0]["MAX_QUERY_DURATION_MINUTES"] if result else 0
 
+@st.cache_data
 def failed_queries_last_24_hours():
     """Returns a list of failed queries executed in the last 24 hours."""
     return session.sql("""
@@ -58,6 +63,7 @@ def failed_queries_last_24_hours():
     ORDER BY START_TIME DESC;
     """).to_pandas()
 
+@st.cache_data
 def longest_queries_last_24_hours():
     """Returns the list of queries with the highest duration in the last 24 hours."""
     return session.sql("""

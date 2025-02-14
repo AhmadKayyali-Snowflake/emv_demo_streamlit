@@ -1,21 +1,13 @@
 import streamlit as st
-# st.set_page_config(
-#     layout="wide",
-#     page_icon="📈"
-# )
-
 import pandas as pd
 import plotly.express as px
 from functions.queries_sql import *
-
-# --- FETCH DATA ---
 df_queries_by_user = queries_by_user()
 df_query_status = query_volume_by_status()
 df_failed_queries = failed_queries_last_24_hours()
 max_duration = max_query_duration()
 df_longest_queries = longest_queries_last_24_hours()
 
-# --- HEADER ---
 st.title("📈 Query Monitoring Dashboard")
 st.markdown("---")
 col1, col2, col3 = st.columns(3)
@@ -31,17 +23,14 @@ with col3:
 st.markdown("---")
 
 st.write("")
-# --- TABS FOR NAVIGATION ---
 main_cols = st.columns(2)
 
-# --- TAB 1: QUERY STATUS ---
 with main_cols[0]:
 
-    # Assign colors manually for better distinction
     status_colors = {
-        "SUCCESS": "#2ECC71",  # Green
-        "FAIL": "#E74C3C",  # Red
-        "INCIDENT": "#F39C12"  # Yellow/Orange
+        "SUCCESS": "#2ECC71",
+        "FAIL": "#E74C3C",
+        "INCIDENT": "#F39C12"
     }
 
     df_query_status["COLOR"] = df_query_status["EXECUTION_STATUS"].map(status_colors)
@@ -55,7 +44,7 @@ with main_cols[0]:
         color="EXECUTION_STATUS",
         hole=0.6,
         color_discrete_map=status_colors,
-        height=400  # Adjust the height as needed
+        height=400
     )
     st.plotly_chart(fig_status, use_container_width=True)
 
@@ -69,17 +58,14 @@ with main_cols[1]:
     )
 st.markdown("---")
 st.subheader("Queries Executed by User")
-# Dropdown Filter
 user_list = df_queries_by_user["USER_NAME"].unique()
 selected_user = st.selectbox("Filter by User:", ["All"] + list(user_list))
 
-# Filter Data
 if selected_user != "All":
     df_filtered_users = df_queries_by_user[df_queries_by_user["USER_NAME"] == selected_user]
 else:
     df_filtered_users = df_queries_by_user
 
-# Bar Chart
 fig_users = px.bar(
     df_filtered_users,
     x="TOTAL_QUERIES",

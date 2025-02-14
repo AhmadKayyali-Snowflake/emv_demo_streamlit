@@ -91,7 +91,7 @@ Specifies dependencies required by the Streamlit app.
 
 ### `Pages/`
 
-Contains code for each page of the app.
+Each file contains code for each page of the app.
 
 ## Dashboards and Metrics
 

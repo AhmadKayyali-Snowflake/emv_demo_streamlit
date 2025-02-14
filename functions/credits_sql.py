@@ -1,8 +1,10 @@
 from functions.session import create_session
 import pandas as pd
+import streamlit as st
 
 session = create_session()
 
+@st.cache_data
 def credits_used():
     total_credits_used = session.sql("""
         SELECT ROUND(SUM(CREDITS_USED),2) AS TOTAL_CREDITS_USED
@@ -11,6 +13,7 @@ def credits_used():
 
     return total_credits_used if total_credits_used else 0
 
+@st.cache_data
 def credits_remaining():
     credits_remaining = session.sql("""
         SELECT ROUND(1000 - SUM(CREDITS_USED),2) AS CREDITS_REMAINING
@@ -19,6 +22,7 @@ def credits_remaining():
 
     return credits_remaining if credits_remaining else 0
 
+@st.cache_data
 def percentage_credits_used():
     percentage_of_credits_used = session.sql("""
         SELECT 
@@ -28,6 +32,7 @@ def percentage_credits_used():
 
     return percentage_of_credits_used if percentage_of_credits_used else 0
 
+@st.cache_data
 def credits_used_per_month_by_warehouse():
     total_credits_used_month_warehouse = session.sql("""
         SELECT 
@@ -45,7 +50,7 @@ def credits_used_per_month_by_warehouse():
 
     return total_credits_used_month_warehouse
 
-
+@st.cache_data
 def credits_by_warehouse():
     total_by_warehouse = session.sql("""
         SELECT 
@@ -60,6 +65,7 @@ def credits_by_warehouse():
     
     return total_by_warehouse
 
+@st.cache_data
 def credits_per_month():
     total_credits_used_month = session.sql("""
     SELECT 
@@ -82,6 +88,7 @@ def credits_per_month():
 
     return total_credits_used_month
 
+@st.cache_data
 def credits_per_warehouse():
     credits_per_warehouse = session.sql("""
     SELECT 
@@ -96,6 +103,7 @@ def credits_per_warehouse():
 
     return credits_per_warehouse
 
+@st.cache_data
 def credits_per_query():
     return session.sql("""
         WITH
@@ -123,4 +131,4 @@ def credits_per_query():
         ON qh.warehouse_size=wh.warehouse_size
     ORDER BY query_cost DESC
     LIMIT 50              
-    """).to_pandas()  # Convert to Pandas DataFrame
+    """).to_pandas()

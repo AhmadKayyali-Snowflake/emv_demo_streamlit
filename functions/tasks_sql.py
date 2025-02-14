@@ -1,8 +1,10 @@
 from functions.session import create_session
 import pandas as pd
+import streamlit as st
 
 session = create_session()
 
+@st.cache_data
 def tasks_by_refresh_status():
     return session.sql("""
     SELECT 
@@ -13,6 +15,7 @@ def tasks_by_refresh_status():
     ORDER BY TASK_COUNT DESC;
     """).to_pandas()
 
+@st.cache_data
 def max_task_lag_difference():
     result = session.sql("""
     SELECT
@@ -25,6 +28,7 @@ def max_task_lag_difference():
     """).collect()
     return result[0]["MAX_LAG_DIFFERENCE_SECONDS"] if result else 0
 
+@st.cache_data
 def failed_tasks_last_24_hours():
     return session.sql("""
     SELECT 
@@ -39,6 +43,7 @@ def failed_tasks_last_24_hours():
     ORDER BY SCHEDULED_TIME DESC;
     """).to_pandas()
 
+@st.cache_data
 def dynamic_tables_by_refresh_status():
     """Returns the count of tasks grouped by their execution state."""
     return session.sql("""
@@ -50,6 +55,7 @@ def dynamic_tables_by_refresh_status():
     ORDER BY DYNAMIC_TABLE_COUNT DESC;
     """).to_pandas()
 
+@st.cache_data
 def max_dynamic_tables_lag_difference():
     result = session.sql("""
     SELECT 
@@ -67,7 +73,7 @@ def max_dynamic_tables_lag_difference():
     """).collect()
     return result[0]["MAX_LAG_DIFFERENCE_SECONDS"] if result else 0
 
-
+@st.cache_data
 def failed_dynamic_tables_last_24_hours():
     return session.sql("""
     SELECT 

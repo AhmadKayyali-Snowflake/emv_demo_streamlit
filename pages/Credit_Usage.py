@@ -1,9 +1,4 @@
 import streamlit as st
-# st.set_page_config(
-#     layout="wide",
-#     page_icon="💰"
-# )
-
 import pandas as pd
 import altair as alt
 import plotly.express as px
@@ -16,8 +11,6 @@ df_warehouse = credits_per_warehouse()
 df_monthly_warehouse = credits_used_per_month_by_warehouse()
 monthly_credit_usage = credits_per_month()
 warehouse_credits = credits_by_warehouse()
-
-
 
 st.title("💰 Credits Usage Dashboard")
 st.markdown("---")
@@ -60,9 +53,8 @@ st.markdown("---")
 
 df_monthly_warehouse["Month"] = df_monthly_warehouse["Month"].dt.strftime("%Y-%m")
 
-# --- Generate Dynamic Warehouse Colors ---
 unique_warehouses = df_monthly_warehouse["Warehouse"].unique().tolist()
-color_palette = px.colors.qualitative.Set2  # Choose a predefined palette
+color_palette = px.colors.qualitative.Set2
 warehouse_colors = {wh: color_palette[i % len(color_palette)] for i, wh in enumerate(unique_warehouses)}
 
 col1, col2 = st.columns((3, 6))
@@ -92,14 +84,12 @@ with col1:
         color=alt.Color(
         "Warehouse",
         scale=alt.Scale(domain=list(warehouse_colors.keys()), range=list(warehouse_colors.values())),
-        legend=None  # Removes the legend
+        legend=None
     )
     ).properties(
         width="container",
         height=500,
     ).configure_view(stroke=None)
-
-
 
     st.altair_chart(chart, use_container_width=True)
 

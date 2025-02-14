@@ -1,9 +1,4 @@
 import streamlit as st
-# st.set_page_config(
-#     layout="wide",
-#     page_icon="📡"
-# )
-
 import pandas as pd
 import altair as alt
 import plotly.express as px
@@ -15,11 +10,9 @@ st.markdown("---")
 database_list = session.sql("SELECT DISTINCT DATABASE_NAME FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY").to_pandas()
 database_options = database_list["DATABASE_NAME"].dropna().tolist()
 
-# Database Selection Dropdown
 database = st.selectbox("Select a Database", database_options, index=None, placeholder="Select a database...")
 
 if database:
-    # Fetch Data
     queries_df = total_queries(database)
     credits_df = total_credits(database)
     users_df = unique_users(database)
@@ -27,22 +20,18 @@ if database:
     failed_df = failed_queries(database)
     queries_per_day_df = queries_per_day(database)
     unique_users_per_day_df = unique_users_per_day(database)
-
-    # Extract values safely
     total_queries_value = queries_df["TOTAL_QUERIES"].iloc[0] if not queries_df.empty else 0
     successful_queries_value = success_df.iloc[0, 0] if not success_df.empty else 0
     failed_queries_value = failed_df.iloc[0, 0] if not failed_df.empty else 0
     unique_users_value = users_df.iloc[0, 0] if not users_df.empty else 0
     total_credits_value = credits_df["TOTAL_QUERY_COST"].iloc[0] if not credits_df.empty else 0
 
-    # Calculate Success & Failure Percentage
     if total_queries_value > 0:
         success_percentage = (successful_queries_value / total_queries_value) * 100
         failed_percentage = (failed_queries_value / total_queries_value) * 100
     else:
         success_percentage = failed_percentage = 0
 
-    # Display Metrics with Colored Numbers & Percentages
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
@@ -62,7 +51,6 @@ if database:
 
     st.markdown("---")
 
-    # Charts Section
     chart_col1, chart_col2 = st.columns(2)
 
     with chart_col1:

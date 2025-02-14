@@ -64,7 +64,6 @@ custom_css = f"""
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# --- HERO SECTION ---
 st.markdown(
     f"""
     <div style="
@@ -88,7 +87,6 @@ st.markdown(
 
 st.markdown("---")
 
-# --- NAVIGATION BUTTONS BELOW HTML CARDS ---
 col1, col2, col3 = st.columns(3)
 
 with col1:

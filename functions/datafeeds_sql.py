@@ -1,8 +1,10 @@
 from functions.session import create_session
 import pandas as pd
+import streamlit as st
 
 session = create_session()
 
+@st.cache_data
 def total_queries(database):
     return session.sql(f"""
        SELECT 
@@ -14,6 +16,7 @@ def total_queries(database):
     ORDER BY TOTAL_QUERIES DESC;                
     """).to_pandas()
 
+@st.cache_data
 def total_credits(database):
     return session.sql(f"""
         WITH warehouse_sizes AS (
@@ -37,7 +40,7 @@ def total_credits(database):
         ORDER BY total_query_cost DESC;             
     """).to_pandas()
 
-
+@st.cache_data
 def unique_users(database):
     return session.sql(f"""
     SELECT COUNT(DISTINCT USER_NAME) AS total_unique_users
@@ -45,7 +48,7 @@ def unique_users(database):
     WHERE DATABASE_NAME = '{database}'
     """).to_pandas()
 
-
+@st.cache_data
 def successful_queries(database):
     return session.sql(f"""
     SELECT COUNT(*) AS successful_queries
@@ -54,6 +57,7 @@ def successful_queries(database):
     AND ERROR_CODE IS NULL            
     """).to_pandas()
 
+@st.cache_data
 def failed_queries(database):
     return session.sql(f"""
     SELECT COUNT(*) AS failed_queries
@@ -62,6 +66,7 @@ def failed_queries(database):
     AND ERROR_CODE IS NOT NULL            
     """).to_pandas()
 
+@st.cache_data
 def queries_per_day(database):
     return session.sql(f"""
     SELECT 
@@ -74,7 +79,7 @@ def queries_per_day(database):
     """).to_pandas()
 
 
-
+@st.cache_data
 def unique_users_per_day(database):
     return session.sql(f"""
     SELECT 
