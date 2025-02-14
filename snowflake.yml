@@ -24,4 +24,4 @@ entities:
       - pages/Credit_Usage.py
       - pages/Query_Monitoring.py
       - pages/Data_Feeds.py
-      - pages/Tasks.py
+      - pages/Tasks_&_Dynamic_Tables.py
