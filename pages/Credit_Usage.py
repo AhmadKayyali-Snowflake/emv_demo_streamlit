@@ -31,11 +31,11 @@ if not monthly_credit_usage.empty:
         mom_change = 0 if pd.isna(mom_change) else mom_change
 
         if mom_change > 0:
-            st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{mom_change:.2f} increase in credit usage since last month</p>', unsafe_allow_html=True)
+            st.markdown(f'<p style="font-weight:bold;">{mom_change:.2f} increase in credit usage since last month</p>', unsafe_allow_html=True)
         elif mom_change < 0:
-            st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{mom_change:.2f} decrease in credit usage since last month</p>', unsafe_allow_html=True)
+            st.markdown(f'<p style="font-weight:bold;">{mom_change:.2f} decrease in credit usage since last month</p>', unsafe_allow_html=True)
         else: 
-            st.write('<p style="font-weight:bold; color:#D3D3D3;">No change in credit usage since last month</p>', unsafe_allow_html=True)
+            st.write('<p style="font-weight:bold;">No change in credit usage since last month</p>', unsafe_allow_html=True)
 
         with credit_usage[1]:
             st.metric(label="Percentage of Credits Used", value=f"{percentage_used:.2f}%")
@@ -44,11 +44,11 @@ if not monthly_credit_usage.empty:
             percentage_change = 0 if pd.isna(percentage_change) else percentage_change
 
             if percentage_change > 0:
-                st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{percentage_change:.2f}% increase in credit usage since last month</p>', unsafe_allow_html=True)
+                st.markdown(f'<p style="font-weight:bold;">{percentage_change:.2f}% increase in credit usage since last month</p>', unsafe_allow_html=True)
             elif percentage_change < 0:
-                st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{percentage_change:.2f}% decrease in credit usage since last month</p>', unsafe_allow_html=True)
+                st.markdown(f'<p style="font-weight:bold;">{percentage_change:.2f}% decrease in credit usage since last month</p>', unsafe_allow_html=True)
             else: 
-                st.write('<p style="font-weight:bold; color:#D3D3D3;">No change in credit usage since last month</p>', unsafe_allow_html=True)
+                st.write('<p style="font-weight:bold;">No change in credit usage since last month</p>', unsafe_allow_html=True)
 
         with credit_usage[2]:
             st.metric(label="Total Credits Remaining", value=f"{total_remaining:.2f}")

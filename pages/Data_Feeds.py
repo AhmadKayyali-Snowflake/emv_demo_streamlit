@@ -47,10 +47,10 @@ if database:
 
     with col1:
         st.metric(label="Successful Queries", value=f"{successful_queries_value}")
-        st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{success_percentage:.2f}% successful</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="font-weight:bold;">{success_percentage:.2f}% successful</p>', unsafe_allow_html=True)
     with col2:
         st.metric(label="Failed Queries", value=f"{failed_queries_value}")
-        st.markdown(f'<p style="font-weight:bold; color:#D3D3D3;">{failed_percentage:.2f}% failed</p>', unsafe_allow_html=True)
+        st.markdown(f'<p style="font-weight:bold;">{failed_percentage:.2f}% failed</p>', unsafe_allow_html=True)
     with col3:
         st.metric("Total Queries", total_queries_value)
 
