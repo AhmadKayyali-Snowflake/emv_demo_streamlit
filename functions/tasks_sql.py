@@ -4,33 +4,79 @@ import pandas as pd
 session = create_session()
 
 def tasks_by_refresh_status():
-    """Returns the count of tasks grouped by their execution state."""
     return session.sql("""
-        SELECT STATE, COUNT(*) AS COUNT
-        FROM SNOWFLAKE.ACCOUNT_USAGE.TASK_HISTORY
-        GROUP BY STATE
-        ORDER BY COUNT DESC;
+    SELECT 
+        STATE AS REFRESH_STATUS, 
+        COUNT(*) AS TASK_COUNT
+    FROM SNOWFLAKE.ACCOUNT_USAGE.TASK_HISTORY
+    GROUP BY STATE
+    ORDER BY TASK_COUNT DESC;
     """).to_pandas()
 
 def max_task_lag_difference():
-    """Returns the maximum execution time difference between scheduled and completed time."""
-    return session.sql("""
-        SELECT MAX(DATEDIFF(SECOND, SCHEDULED_TIME, COMPLETED_TIME)) AS MAX_EXECUTION_LAG
-        FROM SNOWFLAKE.ACCOUNT_USAGE.TASK_HISTORY;
-    """).collect()[0]["MAX_EXECUTION_LAG"]
+    result = session.sql("""
+    SELECT
+    NAME AS TASK_NAME,
+    DATEDIFF(SECOND, SCHEDULED_TIME, QUERY_START_TIME) AS MAX_LAG_DIFFERENCE_SECONDS
+    FROM SNOWFLAKE.ACCOUNT_USAGE.TASK_HISTORY
+    WHERE QUERY_START_TIME > SCHEDULED_TIME
+    ORDER BY MAX_LAG_DIFFERENCE_SECONDS DESC
+    LIMIT 1;
+    """).collect()
+    return result[0]["MAX_LAG_DIFFERENCE_SECONDS"] if result else 0
 
 def failed_tasks_last_24_hours():
-    """Returns a list of failed tasks executed in the last 24 hours."""
     return session.sql("""
-        SELECT 
-            NAME AS Task_Name,
-            DATABASE_NAME AS Database,
-            SCHEMA_NAME AS Schema,
-            STATE AS Status,
-            ERROR_MESSAGE AS Error,
-            SCHEDULED_TIME AS Last_Failure_Time
-        FROM SNOWFLAKE.ACCOUNT_USAGE.TASK_HISTORY
-        WHERE STATE = 'FAILED'
-        AND SCHEDULED_TIME >= DATEADD(HOUR, -24, CURRENT_TIMESTAMP)
-        ORDER BY SCHEDULED_TIME DESC;
+    SELECT 
+        NAME AS TASK_NAME, 
+        STATE, 
+        ERROR_MESSAGE, 
+        SCHEDULED_TIME, 
+        COMPLETED_TIME
+    FROM SNOWFLAKE.ACCOUNT_USAGE.TASK_HISTORY
+    WHERE (STATE = 'FAILED' OR STATE = 'FAILED_AND_AUTO_SUSPENDED')
+    AND SCHEDULED_TIME >= DATEADD(HOUR, -24, CURRENT_TIMESTAMP)
+    ORDER BY SCHEDULED_TIME DESC;
+    """).to_pandas()
+
+def dynamic_tables_by_refresh_status():
+    """Returns the count of tasks grouped by their execution state."""
+    return session.sql("""
+    SELECT 
+        STATE AS REFRESH_STATUS, 
+        COUNT(*) AS DYNAMIC_TABLE_COUNT
+    FROM SNOWFLAKE.ACCOUNT_USAGE.DYNAMIC_TABLE_REFRESH_HISTORY
+    GROUP BY STATE
+    ORDER BY DYNAMIC_TABLE_COUNT DESC;
+    """).to_pandas()
+
+def max_dynamic_tables_lag_difference():
+    result = session.sql("""
+    SELECT 
+        QUALIFIED_NAME, 
+        DATA_TIMESTAMP, 
+        REFRESH_END_TIME, 
+        TARGET_LAG_SEC, 
+        COMPLETION_TARGET,
+        DATEDIFF(SECOND, DATA_TIMESTAMP, REFRESH_END_TIME) AS ACTUAL_LAG_SEC, 
+        ACTUAL_LAG_SEC - TARGET_LAG_SEC AS MAX_LAG_DIFFERENCE_SECONDS
+    FROM SNOWFLAKE.ACCOUNT_USAGE.DYNAMIC_TABLE_REFRESH_HISTORY
+    WHERE ACTUAL_LAG_SEC > TARGET_LAG_SEC
+    ORDER BY MAX_LAG_DIFFERENCE_SECONDS DESC
+    LIMIT 1;
+    """).collect()
+    return result[0]["MAX_LAG_DIFFERENCE_SECONDS"] if result else 0
+
+
+def failed_dynamic_tables_last_24_hours():
+    return session.sql("""
+    SELECT 
+    NAME AS TASK_NAME, 
+    STATE, 
+    STATE_MESSAGE, 
+    REFRESH_END_TIME, 
+    FROM SNOWFLAKE.ACCOUNT_USAGE.DYNAMIC_TABLE_REFRESH_HISTORY
+    WHERE (STATE = 'FAILED' OR STATE = 'UPSTREAM_FAILED')
+    AND REFRESH_END_TIME >= DATEADD(HOUR, -24, CURRENT_TIMESTAMP)
+    ORDER BY REFRESH_END_TIME DESC;
     """).to_pandas()

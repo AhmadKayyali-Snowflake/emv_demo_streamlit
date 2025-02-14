@@ -9,65 +9,72 @@ import plotly.express as px
 from functions.queries_sql import *
 from functions.credits_sql import *
 
-# --- CUSTOM STYLING ---
-custom_css = """
+custom_css = f"""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
-        html, body, [class*="css"] {
+        html, body, [class*="css"] {{
             font-family: 'Inter', sans-serif;
-            background-color: #0E1117;
+            background-color: "#0E1117"
             color: white;
-        }
-        h1, h2, h3, h4, h5 {
-            color: #FFFFFF;
+        }}
+        h1{{
+            color: white;
             font-weight: 600;
-        }
-        .big-title {
+        }}
+        h2, h3, h4, h5 {{
+            color: white;
+            font-weight: 600;
+        }}
+        .big-title {{
             font-size: 38px;
             font-weight: 700;
             text-align: center;
-            color: #58A6FF;
-        }
-        .section-title {
+            color: white;
+        }}
+        .section-title {{
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: #E1E4E8;
+            color: white;
             text-align: center;
-        }
-        .card {
+        }}
+        .card {{
             border-radius: 10px;
-            background-color: #21262D;
+            background-color: #5D5C61;
             padding: 20px;
             text-align: center;
             box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
-            transition: transform 0.2s;
+            transition: transform 0.2s, background-color 0.3s;
             margin-bottom: 10px;
-        }
-        .card:hover {
+        }}
+        .card:hover h3 {{
+            color: white;
+        }}
+        .card:hover {{
             transform: scale(1.05);
-            background-color: #30363D;
-        }
-        .card-icon {
+            background-color: #1F6FEB;
+            color: white;
+        }}
+        .card-icon {{
             font-size: 50px;
-            color: #58A6FF;
+            color: white;
             margin-bottom: 10px;
-        }
+        }}
     </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
 # --- HERO SECTION ---
 st.markdown(
-    """
+    f"""
     <div style="
         padding: 30px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #58A6FF, #1F6FEB);
+        background: linear-gradient(135deg, #1F6FEB, #1F6FEB);
         text-align: center;
         box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
     ">
-        <h1 style="color: white; font-size: 42px; font-weight: 700; margin-bottom: 10px;">
+        <h1 style=" font-size: 42px; font-weight: 700; margin-bottom: 10px;">
         Snowflake Performance Analytics
         </h1>
         <p style="color: white; font-size: 18px; font-weight: 400; max-width: 800px; margin: auto;">
@@ -90,7 +97,7 @@ with col1:
         <div class="card">
             <div class="card-icon">💰</div>
             <h3>Credit Usage</h3>
-            <p>Monitor credit consumption trends, usage over time, and remaining balances.</p>
+            <p style="color:white;">Monitor credit consumption trends, usage over time, and remaining balances.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -104,7 +111,7 @@ with col2:
         <div class="card">
             <div class="card-icon">📈</div>
             <h3>Query Monitoring</h3>
-            <p>Analyze query performance by status, execution time, and failed queries.</p>
+            <p style="color:white;">Analyze query performance by status, execution time, and failed queries.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -118,7 +125,7 @@ with col3:
         <div class="card">
             <div class="card-icon">🛠️</div>
             <h3>Tasks & Tables</h3>
-            <p>Track task refreshes, lag differences, and identify failed tasks & tables.</p>
+            <p style="color:white;">Track task refreshes, lag differences, and identify failed tasks & tables.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -136,7 +143,7 @@ with col4:
         <div class="card">
             <div class="card-icon">📡</div>
             <h3>Data Feeds</h3>
-            <p>Monitor query volume, credit consumption, and unique user trends.</p>
+            <p style="color:white;">Monitor query volume, credit consumption, and unique user trends.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -150,36 +157,8 @@ with col5:
         <div class="card">
             <div class="card-icon">🚀</div>
             <h3>SiS Performance</h3>
-            <p>Analyze SiS queries, success rates, and overall system efficiency.</p>
+            <p style="color:white;">Analyze SiS queries, success rates, and overall system efficiency.</p>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    # if st.button("Go to SiS Performance", key="sis_performance"):
-    #     st.switch_page("pages/sis_performancer.py")
-
-# st.markdown("---")
-
-# # --- LIVE METRICS OVERVIEW ---
-# st.subheader("📊 Live Performance Summary")
-
-# # Fetch data from SQL functions
-# total_queries = queries_by_user()["TOTAL_QUERIES"].sum()
-# failed_queries = failed_queries_last_24_hours().shape[0]
-# credits_used_total = credits_used()
-
-# df_summary = pd.DataFrame({
-#     "Metric": ["Total Queries", "Failed Queries (24h)", "Total Credits Used"],
-#     "Value": [total_queries, failed_queries, credits_used_total]
-# })
-
-# fig_summary = px.bar(
-#     df_summary,
-#     x="Value",
-#     y="Metric",
-#     orientation="h",
-#     text="Value",
-#     color="Metric",
-#     title="Live Performance Summary"
-# )
-# st.plotly_chart(fig_summary, use_container_width=True)
