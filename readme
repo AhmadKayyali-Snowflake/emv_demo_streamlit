@@ -1,95 +1,106 @@
 # EMV Credit and Query Metric POC
 
 ## Overview
-This streamlit app is an analytics platform designed to monitor and optimize performance in Snowflake.
-Gain insights into queries, tasks, dynamic tables, credits, and data feeds with real-time visualizations.
 
-## Set-up Instruction
+This Streamlit app is an analytics platform designed to monitor and optimize performance in Snowflake. Gain insights into queries, tasks, dynamic tables, credits, and data feeds with real-time visualizations.
 
-### Step 1 - Activate Conda Environment & Virtual Enviroment
+## Setup Instructions
+
+### Step 1 - Activate Conda Environment & Virtual Environment
+
 1. Ensure you have [Anaconda](https://www.anaconda.com/) installed.
-2. Create a new Conda enviromnment if you have not done so already.
-3. Activate environment by running:
-```bash
-conda activate myenv
-```
-4. Create and activate virtual environment inside Conda environment by runnung:
-```bash
-python -m venv venv
-```
-on Windows run:
-```bash
-venv\Scripts\activate
-```
-on MacOS\Linux run:
-```bash
-source venv/bin/activate
-```
+2. Create a new Conda environment if you have not done so already.
+3. Activate the environment by running:
+   ```bash
+   conda activate myenv
+   ```
+4. Create and activate a virtual environment inside the Conda environment by running:
+   ```bash
+   python -m venv venv
+   ```
+   - On Windows, run:
+     ```bash
+     venv\Scripts\activate
+     ```
+   - On macOS/Linux, run:
+     ```bash
+     source venv/bin/activate
+     ```
 
 ### Step 2 - Install Dependencies for Local Development
-1. Ensure you are in your project directory
-```bash
-cd path/to/project
-```
-2. In your terminal run:
-```bash
-pip install -r requirements.txt
-```
+
+1. Ensure you are in your project directory:
+   ```bash
+   cd path/to/project
+   ```
+2. Install required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ### Step 3 - Start Streamlit App Locally
-1. Navigate to the "functions" folder and open the "session.py" file.
-2. Change the following line of code on line 11.
-```python
-session = Session.builder.config("connection_name", "my_conn").create()
-```
-Change "my_conn" to the actual name of your snow cli connection. To check this, you can run the command below in your terminal:
-```bash
-snow connection list
-```
-3. In your terminal run:
-```bash
-streamlit run Home.py
-```
+
+1. Navigate to the "functions" folder and open the `session.py` file.
+2. Modify the following line of code on **line 11**:
+   ```python
+   session = Session.builder.config("connection_name", "my_conn").create()
+   ```
+   Replace `"my_conn"` with the actual name of your Snowflake CLI connection. To find your connection name, run:
+   ```bash
+   snow connection list
+   ```
+3. Start the Streamlit app by running:
+   ```bash
+   streamlit run Home.py
+   ```
 4. Open the provided URL in your browser to interact with the app.
 
-### Step 4 - Deploy Streamlit App using Snow CLI
-1. Test your snow connection before deploying
-```bash
-snow connection test --connection my_conn
-```
-2. Navigate to the "snowflake.yml" file in the root of the project and change the database and schema under the identifer section.
+### Step 4 - Deploy Streamlit App Using Snow CLI
 
-3. Run the following command if it is your first time deploying this project:
-```bash
-snow streamlit deploy --database <your database> --schema <your schema>
-```
-Run the following command if you are replacing this project in Streamlit in Snowflake:
-```bash
-snow streamlit deploy --replace --database <your database> --schema <your schema>
-```
-For documentation on the snow streamlit deploy command use the following link:
-https://docs.snowflake.com/en/developer-guide/snowflake-cli/command-reference/streamlit-commands/deploy
+1. Test your Snowflake connection before deploying:
+   ```bash
+   snow connection test --connection my_conn
+   ```
+2. Navigate to the `snowflake.yml` file in the root of the project and update the database and schema under the identifier section.
+3. Deploy the app:
+   - If deploying for the first time:
+     ```bash
+     snow streamlit deploy --database <your_database> --schema <your_schema>
+     ```
+   - If replacing an existing deployment:
+     ```bash
+     snow streamlit deploy --replace --database <your_database> --schema <your_schema>
+     ```
+4. For documentation on `snow streamlit deploy`, visit:
+   [Snowflake CLI Documentation](https://docs.snowflake.com/en/developer-guide/snowflake-cli/command-reference/streamlit-commands/deploy)
 
 ## Project Breakdown
 
-### Home.py
-Landing page and root of the app 
+### `Home.py`
 
-### snowflake.yml
-Project definition for the streamlit app where you specify a list of files which should be included into deployment artifacts, snowflake warehouse to host the app, and more.
-To learn more about this file structure visit this documentation.
-https://docs.snowflake.com/en/developer-guide/snowflake-cli/streamlit-apps/manage-apps/initialize-app#label-snowcli-streamlit-project-definition
+Landing page and root of the app.
 
-### enviroment.yml
-Specify your streamlit app dependencies (any libraries you will use).
+### `snowflake.yml`
 
-### Pages
-Each file in this folder contains the code for each page.
+Project definition file for the Streamlit app. It specifies files for deployment, the Snowflake warehouse hosting the app, and more.
+Learn more about this file structure in the [Snowflake Documentation](https://docs.snowflake.com/en/developer-guide/snowflake-cli/streamlit-apps/manage-apps/initialize-app#label-snowcli-streamlit-project-definition).
 
-### Credit Usage
-Purpose: This dashboard provides an overview of credit usage in Snowflake, helping users monitor credit usage.
+### `environment.yml`
 
-Metrics Available
+Specifies dependencies required by the Streamlit app.
+
+### `Pages/`
+
+Contains code for each page of the app.
+
+## Dashboards and Metrics
+
+### **Credit Usage Dashboard**
+
+**Purpose:** Provides an overview of credit usage in Snowflake to help users monitor their credit consumption.
+
+**Metrics Available:**
+
 - Total Credits Used
 - Percentage of Credits Used
 - Total Credits Remaining
@@ -98,10 +109,12 @@ Metrics Available
 - Monthly Credit Consumption
 - Estimated Credit Consumption Per Query
 
-### Data Feeds
-Purpose: This dashboard provides an overview of credit usage and unique profiles in a Snowflake database.
+### **Data Feeds Dashboard**
 
-Metrics Available
+**Purpose:** Monitors query success rates, credit usage, and unique users in a Snowflake database.
+
+**Metrics Available:**
+
 - Total Successful Queries
 - Total Failed Queries
 - Total Queries
@@ -110,26 +123,31 @@ Metrics Available
 - Queries Per Day
 - Unique Users Per Day
 
-### Query Monitoring Dashboard
-Purpose: This dashboard provides an overview of query execution performance in Snowflake, helping users track query status, failures, and execution trends.
+### **Query Monitoring Dashboard**
 
-Metrics Available:
-- Max Query Duration in Minutes
+**Purpose:** Tracks query execution performance, including query statuses, failures, and execution trends.
+
+**Metrics Available:**
+
+- Max Query Duration (Minutes)
 - Failed Queries (Last 24 Hours)
-- Total Queries Executed in Account
+- Total Queries Executed
 - Query Volume by Status
-- Failed Queries (Last 24 Hours)
 - Queries by User
 - Longest Queries (Last 24 Hours)
 
-### Task & Dynamic Table Execution Dashboard
-Purpose: This dashboard tracks task execution and dynamic table metrics in Snowflake, monitoring lag times, failures, and performance.
+### **Task & Dynamic Table Execution Dashboard**
 
-Metrics Available:
+**Purpose:** Monitors task execution and dynamic table metrics, including lag times, failures, and performance.
+
+**Metrics Available:**
+
 - Max Task & Dynamic Table Execution Lag
-- Task & Dynamic Table Execution Volume by Execution Statu
+- Execution Volume by Status
 - Failed Tasks & Dynamic Tables
 
-### Functions
-Each file in this folder contains the SQL code for each page respectively.
-The only file which does not contain SQL code is the session.py which sets up the session to connect to your Snowflake tables.
+### **Functions Folder**
+
+Contains SQL queries for each dashboard.
+
+- The only exception is `session.py`, which sets up the Snowflake connection.
