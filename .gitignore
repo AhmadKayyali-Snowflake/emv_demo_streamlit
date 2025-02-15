@@ -1,5 +1,6 @@
 .packages/
 .venv/
+.venv/lib
 app.zip
 __pycache__
 .venv
