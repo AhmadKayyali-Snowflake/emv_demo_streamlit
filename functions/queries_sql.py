@@ -1,4 +1,3 @@
-# queries_sql.py
 from functions.session import create_session
 import pandas as pd
 import streamlit as st

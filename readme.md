@@ -4,19 +4,29 @@
 
 This Streamlit app is an analytics platform designed to monitor and optimize performance in Snowflake. Gain insights into queries, tasks, dynamic tables, credits, and data feeds with real-time visualizations.
 
+## Prerequisites
+Before following the steps below you must have a snow cli connection set up.
+If you have not done this already, please navigate to the [Snowflake CLI Configuration](https://docs.snowflake.com/en/developer-guide/snowflake-cli/connecting/configure-connections#add-a-connection) page and follow the steps.
+
+The steps below also assume you have python 3.11 installed as the dependencies in this project are only compatible with this python version.
+
 ## Setup Instructions
 
 ### Step 1 - Activate Conda Environment & Virtual Environment
 
 1. Ensure you have [Anaconda](https://www.anaconda.com/) installed.
 2. Create a new Conda environment if you have not done so already.
-3. Activate the environment by running:
+3. Ensure you are in your project directory:
+   ```bash
+   cd path/to/project
+   ```
+4. Activate the environment by running:
    ```bash
    conda activate myenv
    ```
-4. Create and activate a virtual environment inside the Conda environment by running:
+5. Create and activate a virtual environment inside the Conda environment by running:
    ```bash
-   python -m venv venv
+   python3.11 -m venv venv
    ```
    - On Windows, run:
      ```bash
@@ -29,9 +39,9 @@ This Streamlit app is an analytics platform designed to monitor and optimize per
 
 ### Step 2 - Install Dependencies for Local Development
 
-1. Ensure you are in your project directory:
+1. Ensure you are using python 3.11 by running the following command:
    ```bash
-   cd path/to/project
+   python —-version
    ```
 2. Install required dependencies:
    ```bash
@@ -40,29 +50,29 @@ This Streamlit app is an analytics platform designed to monitor and optimize per
 
 ### Step 3 - Start Streamlit App Locally
 
-1. Navigate to the "functions" folder and open the `session.py` file.
-2. Modify the following line of code on **line 11**:
-   ```python
-   session = Session.builder.config("connection_name", "my_conn").create()
-   ```
-   Replace `"my_conn"` with the actual name of your Snowflake CLI connection. To find your connection name, run:
-   ```bash
-   snow connection list
-   ```
-3. Start the Streamlit app by running:
-   ```bash
-   streamlit run Home.py
-   ```
-4. Open the provided URL in your browser to interact with the app.
-
-### Step 4 - Deploy Streamlit App Using Snow CLI
-
-1. Test your Snowflake connection before deploying:
+1. Test your Snowflake connection before starting the app:
    ```bash
    snow connection test --connection my_conn
    ```
-2. Navigate to the `snowflake.yml` file in the root of the project and update the database and schema under the identifier section.
-3. Deploy the app:
+2. Navigate to the "functions" folder and open the `session.py` file.
+   - Modify the following line of code on **line 11**:
+      ```python
+      session = Session.builder.config("connection_name", "my_conn").create()
+      ```
+      Replace `"my_conn"` with the actual name of your Snowflake CLI connection. To find your connection name, run:
+      ```bash
+      snow connection list
+      ```
+4. Start the Streamlit app by running:
+   ```bash
+   streamlit run Home.py
+   ```
+5. Open the provided URL in your browser to interact with the app.
+
+### Step 4 - Deploy Streamlit App Using Snow CLI
+
+1. Navigate to the `snowflake.yml` file in the root of the project and update the database and schema under the identifier section.
+2. Deploy the app:
    - If deploying for the first time:
      ```bash
      snow streamlit deploy --database <your_database> --schema <your_schema>
@@ -71,7 +81,7 @@ This Streamlit app is an analytics platform designed to monitor and optimize per
      ```bash
      snow streamlit deploy --replace --database <your_database> --schema <your_schema>
      ```
-4. For documentation on `snow streamlit deploy`, visit:
+3. For documentation on `snow streamlit deploy`, visit:
    [Snowflake CLI Documentation](https://docs.snowflake.com/en/developer-guide/snowflake-cli/command-reference/streamlit-commands/deploy)
 
 ## Project Breakdown
