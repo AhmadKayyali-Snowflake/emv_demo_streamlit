@@ -5,7 +5,7 @@
 This Streamlit app is an analytics platform designed to monitor and optimize performance in Snowflake. Gain insights into queries, tasks, dynamic tables, credits, and data feeds with real-time visualizations.
 
 ## Prerequisites
-1. Before following the steps below you must have a snow cli connection set up.
+Before following the steps below you must have a snow cli connection set up.
 If you have not done this already, please navigate to the [Snowflake CLI Configuration](https://docs.snowflake.com/en/developer-guide/snowflake-cli/connecting/configure-connections#add-a-connection) page and follow the steps.
 Once you have successfully set up and tested your connection, you may continue.
 
