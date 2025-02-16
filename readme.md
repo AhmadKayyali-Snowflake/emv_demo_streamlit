@@ -4,12 +4,12 @@
 
 This Streamlit app is an analytics platform designed to monitor and optimize performance in Snowflake. Gain insights into queries, tasks, dynamic tables, credits, and data feeds with real-time visualizations.
 
-## Setup Instructions
-
 ## Prerequisites
 1. Before following the steps below you must have a snow cli connection set up.
 If you have not done this already, please navigate to the [Snowflake CLI Configuration](https://docs.snowflake.com/en/developer-guide/snowflake-cli/connecting/configure-connections#add-a-connection) page and follow the steps.
 Once you have successfully set up and tested your connection, you may continue.
+
+## Setup Instructions
 
 ### Step 1 - Activate Conda Environment & Virtual Environment
 
@@ -54,14 +54,14 @@ Once you have successfully set up and tested your connection, you may continue.
    snow connection test --connection my_conn
    ```
 2. Navigate to the "functions" folder and open the `session.py` file.
-3. Modify the following line of code on **line 11**:
-   ```python
-   session = Session.builder.config("connection_name", "my_conn").create()
-   ```
-   Replace `"my_conn"` with the actual name of your Snowflake CLI connection. To find your connection name, run:
-   ```bash
-   snow connection list
-   ```
+   - Modify the following line of code on **line 11**:
+      ```python
+      session = Session.builder.config("connection_name", "my_conn").create()
+      ```
+      Replace `"my_conn"` with the actual name of your Snowflake CLI connection. To find your connection name, run:
+      ```bash
+      snow connection list
+      ```
 4. Start the Streamlit app by running:
    ```bash
    streamlit run Home.py
