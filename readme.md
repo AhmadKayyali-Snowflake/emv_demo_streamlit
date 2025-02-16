@@ -7,7 +7,8 @@ This Streamlit app is an analytics platform designed to monitor and optimize per
 ## Prerequisites
 Before following the steps below you must have a snow cli connection set up.
 If you have not done this already, please navigate to the [Snowflake CLI Configuration](https://docs.snowflake.com/en/developer-guide/snowflake-cli/connecting/configure-connections#add-a-connection) page and follow the steps.
-Once you have successfully set up and tested your connection, you may continue.
+
+The steps below also assume you have python 3.11 installed as the dependencies in this project are only compatible with this python version.
 
 ## Setup Instructions
 
