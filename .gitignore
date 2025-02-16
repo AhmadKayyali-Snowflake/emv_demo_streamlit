@@ -3,5 +3,6 @@
 .venv/lib
 app.zip
 __pycache__
+__pycache__/
 .venv
 .secrets.toml
