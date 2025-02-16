@@ -13,7 +13,6 @@ monthly_credit_usage = credits_per_month()
 warehouse_credits = credits_by_warehouse()
 
 st.title("💰 Credits Usage Dashboard")
-st.write("Test!")
 st.markdown("---")
 credit_usage = st.columns(3)
 
