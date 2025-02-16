@@ -41,7 +41,7 @@ The steps below also assume you have python 3.11 installed as the dependencies i
 
 1. Ensure you are using python 3.11 by running the following command:
    ```bash
-   python —version
+   python —-version
    ```
 2. Install required dependencies:
    ```bash
