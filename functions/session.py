@@ -38,8 +38,8 @@ def download_pdf():
                 setTimeout(() => {
                     toggleSidebar("open");  // Show sidebar after printing
                     obj.style.display = "block";  // Show button again
-                }, 2000);  // Ensure sidebar reappears after print dialog closes
-            }, 500);
+                }, 0);  // Ensure sidebar reappears after print dialog closes
+            }, 0);
         }
     </script>
     <button onclick="print_page(this)" style="
