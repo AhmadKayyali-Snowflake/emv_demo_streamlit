@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from functions.tasks_sql import *
+import streamlit.components.v1 as components
+from functions.session import download_pdf
 
 df_tasks_status = tasks_by_refresh_status()
 max_task_lag = max_task_lag_difference()
@@ -16,6 +18,7 @@ df_failed_dynamic_tables = df_failed_dynamic_tables if df_failed_dynamic_tables 
 
 st.title("🛠️ Task & Dynamic Table Execution Dashboard")
 st.markdown("---")
+download_pdf()
 
 col1, col2 = st.columns(2)
 
@@ -47,7 +50,6 @@ fig_status = px.bar(
 fig_status.update_layout(xaxis_title="Task Status", yaxis_title="Task Count")
 
 st.plotly_chart(fig_status, use_container_width=True)
-
 st.markdown("---")
 
 col1, col2 = st.columns(2)

@@ -3,9 +3,12 @@ import pandas as pd
 import altair as alt
 import plotly.express as px
 from functions.datafeeds_sql import *
+import streamlit.components.v1 as components
+from functions.session import download_pdf
 
 st.title("📡 Data Feeds by Database Dashboard")
 st.markdown("---")
+download_pdf()
 
 database_list = session.sql("SELECT DISTINCT DATABASE_NAME FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY").to_pandas()
 database_options = database_list["DATABASE_NAME"].dropna().tolist()

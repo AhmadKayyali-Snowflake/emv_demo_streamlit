@@ -3,6 +3,8 @@ import pandas as pd
 import altair as alt
 import plotly.express as px
 from functions.credits_sql import *
+import streamlit.components.v1 as components
+from functions.session import download_pdf
 
 total_used = credits_used()
 total_remaining = credits_remaining()
@@ -48,6 +50,7 @@ if not monthly_credit_usage.empty:
 else:
     st.warning("No data available for monthly credit usage.")
 
+download_pdf()
 
 st.markdown("---")
 

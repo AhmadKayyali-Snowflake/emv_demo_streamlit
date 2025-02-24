@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from functions.queries_sql import *
+import streamlit.components.v1 as components
+from functions.session import download_pdf
+
 df_queries_by_user = queries_by_user()
 df_query_status = query_volume_by_status()
 df_failed_queries = failed_queries_last_24_hours()
@@ -20,6 +23,7 @@ with col2:
 with col3:
     st.metric(label="Total Number of Queries", value=f"{df_queries_by_user['TOTAL_QUERIES'].sum()}", delta_color="inverse")
 
+download_pdf()
 st.markdown("---")
 
 st.write("")
@@ -85,3 +89,47 @@ st.data_editor(
     height=300,
     hide_index=True
 )
+
+show_print_button = """
+    <script>
+        function toggleSidebar(action) {
+            var sidebar = window.parent.document.querySelector("[data-testid='stSidebar']");
+            if (sidebar) {
+                if (action === "close") {
+                    sidebar.style.display = "none";
+                } else {
+                    sidebar.style.display = "block";
+                }
+            }
+        }
+
+        function print_page(obj) {
+            toggleSidebar("close");  // Hide sidebar before printing
+            obj.style.display = "none";  // Hide button before printing
+
+            setTimeout(() => {
+                parent.window.print();  // Open print dialog
+
+                setTimeout(() => {
+                    toggleSidebar("open");  // Show sidebar after printing
+                    obj.style.display = "block";  // Show button again
+                }, 2000);  // Ensure sidebar reappears after print dialog closes
+            }, 500);
+        }
+    </script>
+    <button onclick="print_page(this)" style="
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        display: block;
+        margin: 10px auto;">
+        Export Page as PDF
+    </button>
+"""
+
+# Display the print button
+components.html(show_print_button, height=60)
